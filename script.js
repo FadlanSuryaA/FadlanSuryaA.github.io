@@ -59,6 +59,14 @@ const roleEl = document.querySelector('.hero-title .role');
 if (roleEl) {
   roleEl.style.borderRight = '2px solid #8b5cf6';
 
+  // Fix layout shift: set a fixed height so elements below don't jump
+  // We set it after one frame so the browser has rendered the initial text
+  requestAnimationFrame(() => {
+    const lineHeight = parseFloat(getComputedStyle(roleEl).lineHeight) || roleEl.offsetHeight || 28;
+    roleEl.style.minHeight = lineHeight + 'px';
+    roleEl.style.display = 'block';
+  });
+
   function type() {
     const currentRole = roles[roleIndex];
     if (isDeleting) {
@@ -84,6 +92,7 @@ if (roleEl) {
 
   setTimeout(type, 1000);
 }
+
 
 // ===== CONTACT FORM =====
 const form = document.getElementById('contact-form');
